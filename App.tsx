@@ -1,10 +1,11 @@
 import React from 'react';
-import { Dimensions, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
 import { LineChartCard } from './components/cards/LineChartCard';
 import { PieChartCard } from './components/cards/PieChartCard';
 import { PieChartData } from 'react-native-svg-charts';
 import { DonutChartCard } from './components/cards/DonutChartCard';
 import { LineChartData } from './components/charts/line_chart/DefaultLineChart';
+import { BarChartCard } from './components/cards/BarChartCard';
 
 export default function App() {
   const data: LineChartData[] = [
@@ -17,6 +18,19 @@ export default function App() {
       key: 'Vue',
       data: [ 13, 43, -53, -34, -23, -90, -23, 125, 100, 95, 12, 78, 76, -88, 0],
       svg: { stroke: '#009688'}
+    },
+  ];
+
+  const barData: LineChartData[] = [
+    {
+      key: 'React',
+      data: [ 50, 10, 40, 95, -4, -24, 85, 91, 35],
+      svg: { fill: '#40146E'}
+    },
+    {
+      key: 'Vue',
+      data: [ 13, 43, -53, -34, -23, -90, -23, 125, 100],
+      svg: { fill: '#009688'}
     },
   ];
 
@@ -83,6 +97,12 @@ export default function App() {
             data={dataDonut}
             enableLegend
             complementLabel='%'
+          />
+          <BarChartCard
+            data={barData}
+            enableYAxis
+            enableLegend
+            enableLabels
           />
         </ScrollView>
       </View>
