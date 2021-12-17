@@ -5,6 +5,7 @@ import { Tooltip } from './Tooltip';
 import { HorizontalLine } from './HorizontalLine';
 import { PositionsChart } from './PositionsChart';
 import { PathProps } from 'react-native-svg';
+import { Legends } from '../../_shered/Legends';
 
 interface Props {
   data: LineChartData[];
@@ -12,9 +13,11 @@ interface Props {
   valueHorizontalLine?: number[];
   enableXAxis?: boolean;
   enableYAxis?: boolean;
+  enableLegend?: boolean;
 }
 
 export type LineChartData = {
+  key: string;
   data: number[];
   svg?: Partial<PathProps>;
 }
@@ -27,7 +30,8 @@ export function DefaultLineChart(props: Props) {
     enableGrid,
     valueHorizontalLine,
     enableXAxis,
-    enableYAxis
+    enableYAxis,
+    enableLegend
   } = props
 
   function handleSelectPosition(indexes: number[]) {
@@ -64,45 +68,53 @@ export function DefaultLineChart(props: Props) {
   }
 
   return (
-    <View style={styles.container}>
-      {enableYAxis &&
-        <YAxis
-          data={makeDataForAxis()}
-          contentInset={{ top: 20, bottom: 20 }}
-          svg={{ fill: 'grey', fontSize: 10 }}
-          numberOfTicks={10}
-          formatLabel={(value) => `${value}`}
-        />
-      }
-      <View style={styles.lineChartContainer}>
-        <LineChart
-          style={styles.lineChart}
-          data={styleStroke(data)}
-          contentInset={{ top: 20, bottom: 20 }}
-        >
-          {enableGrid && <Grid />}
-          {valueHorizontalLine?.length ?
-            <HorizontalLine values={valueHorizontalLine} />
-            :
-            null
-          }
-          <PositionsChart
-            onChangeSelectPosition={handleSelectPosition}
-            value={positionSelected}
-          />
-          <Tooltip positionSelected={positionSelected} />
-        </LineChart>
-        {enableXAxis &&
-          <XAxis
-            style={styles.xAxis}
-            data={data[0].data}
-            formatLabel={(value, index) => index}
-            contentInset={{ left: 10, right: 10 }}
-            svg={{ fontSize: 10, fill: 'black' }}
+    <>
+      <View style={styles.container}>
+        {enableYAxis &&
+          <YAxis
+            data={makeDataForAxis()}
+            contentInset={{ top: 20, bottom: 20 }}
+            svg={{ fill: 'grey', fontSize: 10 }}
+            numberOfTicks={10}
+            formatLabel={(value) => `${value}`}
           />
         }
+        <View style={styles.lineChartContainer}>
+          <LineChart
+            style={styles.lineChart}
+            data={styleStroke(data)}
+            contentInset={{ top: 20, bottom: 20 }}
+          >
+            {enableGrid && <Grid />}
+            {valueHorizontalLine?.length ?
+              <HorizontalLine values={valueHorizontalLine} />
+              :
+              null
+            }
+            <PositionsChart
+              onChangeSelectPosition={handleSelectPosition}
+              value={positionSelected}
+            />
+            <Tooltip positionSelected={positionSelected} />
+          </LineChart>
+          {enableXAxis &&
+            <XAxis
+              style={styles.xAxis}
+              data={data[0].data}
+              formatLabel={(value, index) => index}
+              contentInset={{ left: 10, right: 10 }}
+              svg={{ fontSize: 10, fill: 'black' }}
+            />
+          }
+        </View>
       </View>
-    </View>
+      {enableLegend &&
+        <Legends
+          data={data}
+          targetColor='stroke'
+        />
+      }
+    </>
   );
 }
 

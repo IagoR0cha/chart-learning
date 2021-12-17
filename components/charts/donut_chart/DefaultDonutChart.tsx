@@ -7,12 +7,13 @@ import { DefaultPieChart } from '../pie_chart/DefaultPieChart';
 interface Props {
   data: PieChartData[];
   complementLabel?: string;
+  enableLegend?: boolean;
 }
 
 export function DefaultDonutChart(props: Props) {
   const [labelWidth, setLabelWidth] = useState(0);
 
-  const { data, complementLabel } = props;
+  const { data, complementLabel, enableLegend } = props;
 
   function calcTotal() {
     return data.map(({ value }) => value)
@@ -24,6 +25,7 @@ export function DefaultDonutChart(props: Props) {
       data={data}
       complementLabel={complementLabel}
       innerRadius={'35%'}
+      enableLegend={enableLegend}
     >
       <View
         onLayout={({ nativeEvent }) => {

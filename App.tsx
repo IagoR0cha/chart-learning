@@ -9,10 +9,12 @@ import { LineChartData } from './components/charts/line_chart/DefaultLineChart';
 export default function App() {
   const data: LineChartData[] = [
     {
+      key: 'React',
       data: [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80],
       svg: { stroke: '#40146E'}
     },
     {
+      key: 'Vue',
       data: [ 13, 43, -53, -34, -23, -90, -23, 125, 100, 95, 12, 78, 76, -88, 0],
       svg: { stroke: '#009688'}
     },
@@ -70,13 +72,16 @@ export default function App() {
             valueHorizontalLine={calcAvg()}
             enableGrid
             enableYAxis
+            enableLegend
           />
           <PieChartCard
             data={dataPie}
+            enableLegend
             complementLabel='%'
           />
           <DonutChartCard
             data={dataDonut}
+            enableLegend
             complementLabel='%'
           />
         </ScrollView>

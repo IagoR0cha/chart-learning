@@ -6,14 +6,16 @@ import { DefaultCard } from './DefaultCard';
 interface Props {
   data: PieChartData[];
   complementLabel: string;
+  enableLegend?: boolean;
 }
 
-export function PieChartCard({ data, complementLabel }: Props) {
+export function PieChartCard({ data, complementLabel, enableLegend }: Props) {
   return (
     <DefaultCard>
       <DefaultPieChart
         data={data}
         complementLabel={complementLabel}
+        enableLegend={enableLegend}
       />
     </DefaultCard>
   );

@@ -4,11 +4,13 @@ import { StyleSheet, View } from 'react-native';
 
 import { Labels } from './Labels';
 import { PieTooltip } from './PieTooltip';
+import { Legends } from '../../_shered/Legends';
 
 interface Props extends ComponentProps<typeof PieChart> {
   data: PieChartData[];
   complementLabel?: string;
   children?: ReactNode;
+  enableLegend?: boolean;
 }
 
 export interface PieData extends PieChartData {
@@ -18,7 +20,7 @@ export interface PieData extends PieChartData {
 export function DefaultPieChart(props: Props) {
   const [itemSelected, setItemSelected] = useState<PieData>({} as PieData);
 
-  const { data, complementLabel, children, ...all } = props;
+  const { data, complementLabel, children, enableLegend, ...all } = props;
 
   function calcPercentage(): PieData[] {
     const totalValue = data.filter(({value}) => !!value || value === 0)
@@ -55,23 +57,32 @@ export function DefaultPieChart(props: Props) {
   }
 
   return (
-    <View style={styles.container}>
-      <PieChart
-        style={{ height: 240, }}
-        data={insertEventOnItem(calcPercentage())}
-        valueAccessor={({ item }) => item.percentageValue!}
-        outerRadius={'100%'}
-        innerRadius={4}
-        startAngle={-0.9}
-        {...all}
-      >
-        <Labels
-          complementLabel={complementLabel}
+    <>
+      <View style={styles.container}>
+        <PieChart
+          style={{ height: 240, }}
+          data={insertEventOnItem(calcPercentage())}
+          valueAccessor={({ item }) => item.percentageValue!}
+          outerRadius={'100%'}
+          innerRadius={4}
+          startAngle={-0.9}
+          {...all}
+        >
+          <Labels
+            complementLabel={complementLabel}
+          />
+          <PieTooltip itemSelected={itemSelected} />
+        </PieChart>
+        { children }
+      </View>
+      {enableLegend &&
+        <Legends
+          style={styles.legends}
+          data={data}
+          targetColor='fill'
         />
-        <PieTooltip itemSelected={itemSelected} />
-      </PieChart>
-      { children }
-    </View>
+      }
+    </>
   );
 }
 
@@ -79,5 +90,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center'
+  },
+  legends: {
+    marginTop: 10
   }
 });

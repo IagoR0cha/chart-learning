@@ -9,6 +9,7 @@ interface Props {
   enableXAxis?: boolean;
   enableYAxis?: boolean;
   enableGrid?: boolean;
+  enableLegend?: boolean;
 }
 
 export function LineChartCard(props: Props) {
@@ -17,7 +18,8 @@ export function LineChartCard(props: Props) {
     valueHorizontalLine,
     enableXAxis,
     enableYAxis,
-    enableGrid
+    enableGrid,
+    enableLegend
   } = props
 
   return (
@@ -28,6 +30,7 @@ export function LineChartCard(props: Props) {
         enableXAxis={enableXAxis}
         enableYAxis={enableYAxis}
         enableGrid={enableGrid}
+        enableLegend={enableLegend}
       />
     </DefaultCard>
   );

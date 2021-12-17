@@ -30,10 +30,6 @@ export function PieTooltip(props: any) {
     }
 
     function tooltipX() {
-      console.log('width => ', width);
-      console.log('width tooltip => ', textWidth);
-      console.log('=> ', textWidth + (pieCentroid[0] + width / 2));
-
       const widthDiference = (textWidth + (pieCentroid[0] + width / 2)) - width + 1;
 
       if (widthDiference > 0) {
