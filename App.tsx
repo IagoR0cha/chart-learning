@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
 import { LineChartCard } from './components/cards/LineChartCard';
 import { PieChartCard } from './components/cards/PieChartCard';
@@ -8,6 +8,9 @@ import { LineChartData } from './components/charts/line_chart/DefaultLineChart';
 import { BarChartCard } from './components/cards/BarChartCard';
 
 export default function App() {
+  const [currentHeight, setCurrentHeight] = useState(0);
+  const [currentWidth, setCurrentWidth] = useState(0);
+
   const data: LineChartData[] = [
     {
       key: 'React',
@@ -76,10 +79,23 @@ export default function App() {
     })
   }
 
+  useEffect(() => {
+    setCurrentHeight(Dimensions.get('screen').height);
+    setCurrentWidth(Dimensions.get('screen').width);
+
+    Dimensions.addEventListener('change', () => {
+      setCurrentHeight(Dimensions.get('screen').height);
+      setCurrentWidth(Dimensions.get('screen').width);
+    })
+  }, [])
+
   return (
     <>
       <StatusBar backgroundColor={'#fff'} barStyle={'dark-content'} />
-      <View style={styles.container}>
+      <View style={[styles.container, {
+        height: currentHeight,
+        width: currentWidth,
+      }]}>
         <ScrollView style={styles.scrollContainer}>
           <LineChartCard
             data={data}
@@ -115,8 +131,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    height: Dimensions.get('screen').height,
-    width: Dimensions.get('window').width,
     backgroundColor: '#fff',
   },
 });
